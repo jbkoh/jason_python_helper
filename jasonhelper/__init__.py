@@ -1,5 +1,6 @@
 import argparse
 import os
+import time
 
 ## Argparser
 
@@ -60,3 +61,27 @@ def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     for i in range(0, len(l), n):
         yield l[i:i + n]
+
+class FtnTimer(object):
+    def __init__(self):
+        self.tot_time = 0
+        self.tot_cnt = 0
+        self.curr_time = 0
+
+    def start(self):
+        self.start_time = time.clock()
+
+    def end(self):
+        end_time = time.clock()
+        self.tot_time += end_time - self.start_time
+        self.tot_cnt += 1
+
+    def get_result(self):
+        if not self.tot_cnt:
+            avg_time = None
+        else:
+            avg_time = self.tot_time / self.tot_cnt
+        res = {
+            'average_time': avg_time
+        }
+        return res
